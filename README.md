@@ -88,7 +88,7 @@ graph LR
 
 # Schéma Supabase
 
-    . Authentification
+- Authentification:
 ```bash
 create table public.users (
   id uuid references auth.users primary key,
@@ -96,7 +96,7 @@ create table public.users (
 );
 ```
 
-    . Profils Utilisateurs
+- Profils Utilisateurs:
 ```bash
 create table public.profiles (
   id uuid references auth.users primary key,
@@ -104,7 +104,7 @@ create table public.profiles (
 );
 ```
 
-    . Données Clients
+- Données Clients:
 ```bash
 create table public.clientstemp (
   id uuid primary key,
