@@ -56,6 +56,7 @@ src/
 ├── layouts/          # Application layouts
 ├── routes/           # Routing configuration
 └── common/           # Shared components & utilities
+```
 
 # Détails Techniques Clés
 ## Optimisations de Performance
@@ -67,13 +68,13 @@ src/
 
 - Découpage de code :
 
--- Chargement différé des routes avec React.lazy()
+    . Chargement différé des routes avec React.lazy()
 
--- Imports dynamiques pour les fonctionnalités admin
+    . Imports dynamiques pour les fonctionnalités admin
 
--- SCSS Modules pour le styling localisé
+    . SCSS Modules pour le styling localisé
 
--- Requêtes Supabase optimisées avec filtres
+    . Requêtes Supabase optimisées avec filtres
 
 # Flux de Données
 
@@ -87,19 +88,24 @@ graph LR
 
 # Schéma Supabase
 
--- Authentification
+    . Authentification
+```bash
 create table public.users (
   id uuid references auth.users primary key,
   email text
 );
+```
 
--- Profils Utilisateurs
+    . Profils Utilisateurs
+```bash
 create table public.profiles (
   id uuid references auth.users primary key,
   role varchar(5) check (role in ('ADMIN', 'USER'))
 );
+```
 
--- Données Clients
+    . Données Clients
+```bash
 create table public.clientstemp (
   id uuid primary key,
   data jsonb,
@@ -115,6 +121,7 @@ create table public.clients (
   created_at timestamp
 );
 
+```
 # Installation et Utilisation
 
 1. Cloner le dépôt
