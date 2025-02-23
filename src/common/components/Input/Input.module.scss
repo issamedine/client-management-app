@@ -1,0 +1,40 @@
+// src/components/Input/Input.module.scss
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.input-wrapper label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.input-wrapper input {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+.input-wrapper input:focus {
+    border-color: #3498db;
+    outline: none;
+    background-color: #f0f8ff;
+}
+
+.input-wrapper input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+// .input-wrapper input:required {
+//     border-color: #e74c3c;
+// }
+
+.input-wrapper input::placeholder {
+    color: #888;
+}

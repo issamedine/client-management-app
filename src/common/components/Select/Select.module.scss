@@ -1,0 +1,44 @@
+// src/components/Select/Select.module.scss
+.select-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.select-wrapper label {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.select-wrapper select {
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border 0.3s ease, background-color 0.3s ease;
+    background-color: #fff;
+    color: #333;
+}
+
+.select-wrapper select:focus {
+    border-color: #3498db;
+    outline: none;
+    background-color: #f0f8ff;
+}
+
+.select-wrapper select:disabled {
+    background-color: #f5f5f5;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.select-wrapper select option {
+    padding: 0.5rem;
+}
+
+.select-wrapper select option:checked {
+    background-color: #3498db;
+    color: white;
+}

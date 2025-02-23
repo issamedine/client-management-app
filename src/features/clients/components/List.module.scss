@@ -1,0 +1,10 @@
+// src/components/List/List.module.scss
+.list {
+    padding: 0;
+    list-style: none;
+}
+
+.no-records {
+    font-size: 1.2rem;
+    color: #888;
+}

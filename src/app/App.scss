@@ -1,0 +1,102 @@
+@font-face {
+  font-family: 'OpenSansRegular';
+  src: url('../../public/fonts/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'OpenSansMedium';
+  src: url('../../public/fonts/OpenSans-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'OpenSansBold';
+  src: url('../../public/fonts/OpenSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: 'OpenSansLight';
+  src: url('../../public/fonts/OpenSans-Light.ttf');
+}
+
+body {
+  font-family: 'OpenSansRegular', sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+.notification {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+nav {
+  margin-bottom: 20px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #333;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form div {
+  margin-bottom: 10px;
+}
+
+form label {
+  margin-right: 10px;
+}
+
+form input {
+  padding: 5px;
+}
+
+form button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #45a049;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+ul li button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+ul li button:hover {
+  background-color: #d32f2f;
+}

@@ -1,0 +1,58 @@
+// src/components/Form/Form.module.scss
+.form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.form h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.form p.error {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+}
+
+.form input,
+.form button {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+.form input:focus,
+.form button:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+.form button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.form button:hover {
+    background-color: #2980b9;
+}
+
+.form button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}

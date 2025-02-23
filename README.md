@@ -1,70 +1,144 @@
-# Getting Started with Create React App
+# Client Management Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern web application built with React, Redux Toolkit, and Supabase for managing client profiles with role-based access control (ADMIN/USER). Implements secure authentication, client profile workflows, and optimized rendering techniques.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### 🔒 Authentication System
+- **Multi-role registration** (ADMIN/USER) with email verification
+- JWT-based authentication flow with Supabase
+- Protected routes using `PrivateRoute` component
+- Automatic profile creation in `profiles` table on registration
+- Session management with Redux (`userSlice`)
 
-### `npm start`
+### 👥 Client Profile Management
+- **Dual-table architecture**:
+  - `clientstemp` for pending approvals
+  - `clients` for validated entries
+- **Role-based workflows**:
+  - Users create/edit/delete temporary entries
+  - Admins validate/reject submissions
+- CRUD operations with Supabase real-time updates
+- Redux state management (`clientsSlice`)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🛡 Security Architecture
+- Route protection based on authentication state
+- Dynamic navigation rendering (auth/role-dependent)
+- Two layout system:
+  - `AuthLayout` for login/registration
+  - `MainLayout` for authenticated content
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Project Structure
 
-### `npm test`
+```plaintext
+src/
+├── api/               # Supabase API abstractions
+│   ├── authApi.js
+│   ├── clientsApi.js
+│   └── supabaseClient.js
+│
+├── features/          # Feature-based modules
+│   ├── auth/         # Authentication flows
+│   ├── clients/      # Client management
+│   ├── admin/        # Admin validation panels
+│   └── home/         # Landing pages
+│
+├── redux/            # State management
+│   ├── store.js
+│   ├── slices/       # Redux Toolkit slices
+│       └── clientsSlice.js
+│       └── userSlice.js
+│
+├── services/         # Business logic layer
+│   ├── authService.js
+│   └── clientsService.js
+│
+├── layouts/          # Application layouts
+├── routes/           # Routing configuration
+└── common/           # Shared components & utilities
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Détails Techniques Clés
+## Optimisations de Performance
+### Mémoïsation des composants :
 
-### `npm run build`
+- React.memo pour les composants purs
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- useMemo/useCallback pour les opérations coûteuses
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Découpage de code :
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+-- Chargement différé des routes avec React.lazy()
 
-### `npm run eject`
+-- Imports dynamiques pour les fonctionnalités admin
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+-- SCSS Modules pour le styling localisé
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+-- Requêtes Supabase optimisées avec filtres
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+# Flux de Données
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+graph LR
+  A[Composants] -->|Dispatch d'Actions| B[Redux Thunks]
+  B --> C[Couche API Supabase]
+  C --> D[(Base de Données Supabase)]
+  D --> C
+  C -->|Mise à jour de l'État| E[Slices Redux]
+  E --> A
 
-## Learn More
+# Schéma Supabase
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+-- Authentification
+create table public.users (
+  id uuid references auth.users primary key,
+  email text
+);
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+-- Profils Utilisateurs
+create table public.profiles (
+  id uuid references auth.users primary key,
+  role varchar(5) check (role in ('ADMIN', 'USER'))
+);
 
-### Code Splitting
+-- Données Clients
+create table public.clientstemp (
+  id uuid primary key,
+  data jsonb,
+  owner uuid references profiles(id),
+  created_at timestamp
+);
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+create table public.clients (
+  id uuid primary key,
+  data jsonb,
+  owner uuid references profiles(id),
+  approved_by uuid references profiles(id),
+  created_at timestamp
+);
 
-### Analyzing the Bundle Size
+# Installation et Utilisation
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+1. Cloner le dépôt
 
-### Making a Progressive Web App
+```bash 
+git clone git@github.com:issamedine/client-management-app.git
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+2. Configuration d'Environnement 
 
-### Advanced Configuration
+```bash 
+cp .env.example .env
+# Renseigner les identifiants Supabase
+VITE_SUPABASE_URL=your-project-url
+VITE_SUPABASE_KEY=your-anon-key
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. Installer les dépendances
+```bash 
+npm install
+npm run start
+```
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Build de Production
+```bash
+npm run build
+```

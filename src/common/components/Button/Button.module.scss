@@ -1,0 +1,53 @@
+// src/common/components/Button/Button.module.scss
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1.5rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    outline: none;
+    font-family: 'OpenSansRegular', sans-serif;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 14px;
+
+    &:hover {
+        background-color: #2980b9;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+    }
+
+    // Secondary variant button styling
+    &.secondary {
+        background-color: #e74c3c;
+        color: #fff;
+
+        &:hover {
+            background-color: #c0392b;
+        }
+    }
+
+    // Tertiary variant button styling
+    &.tertiary {
+        background-color: transparent;
+        color: #3498db;
+        border: 2px solid #3498db;
+
+        &:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+    }
+}
+
+.button:disabled {
+    background-color: #bdc3c7;
+    color: #7f8c8d;
+    cursor: not-allowed;
+}

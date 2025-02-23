@@ -1,0 +1,50 @@
+// src/components/ClientList/ClientList.module.scss
+.client-list-container {
+    margin: 2rem;
+}
+
+.client-list-container h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.client-record {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.client-record:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.client-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.client-actions button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.client-actions button:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+
+.no-records {
+    color: #888;
+    font-size: 1.2rem;
+}
