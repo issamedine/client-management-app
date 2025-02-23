@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient';
+import { supabase } from "./supabaseClient";
 
 /**
  * Authenticates a user with email and password.

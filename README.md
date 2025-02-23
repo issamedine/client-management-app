@@ -126,10 +126,10 @@ git clone git@github.com:issamedine/client-management-app.git
 2. Configuration d'Environnement 
 
 ```bash 
-cp .env.example .env
+cp .env
 # Renseigner les identifiants Supabase
-VITE_SUPABASE_URL=your-project-url
-VITE_SUPABASE_KEY=your-anon-key
+REACT_APP_SUPABASE_URL=your-project-url
+REACT_APP_SUPABASE_KEY=your-key
 ```
 
 3. Installer les dépendances
