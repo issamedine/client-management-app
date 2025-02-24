@@ -1,5 +1,6 @@
 import React from 'react';
 import AdminPanel from '../components/AdminPanel';
+import styles from './AdminPage.module.scss';
 
 /**
  * Administration page container component.
@@ -22,10 +23,20 @@ import AdminPanel from '../components/AdminPanel';
  * @see {@link AdminPanel} For the main administration functionality implementation
  */
 const AdminPage = () => (
-    <div className="admin-page">
-        <h1>Administration Dashboard</h1>
-        <AdminPanel />
-    </div>
+  <div className={styles.adminContainer}>
+    <aside className={styles.sidebar}>
+      <div className={styles.title_admin}>Admin Dashboard</div>
+      <ul>
+        <li>Clients</li>
+        <li>Users</li>
+        <li>Settings</li>
+      </ul>
+    </aside>
+    <main className={styles.content}>
+      <h1>Administration Dashboard</h1>
+      <AdminPanel />
+    </main>
+  </div>
 );
 
 export default AdminPage;

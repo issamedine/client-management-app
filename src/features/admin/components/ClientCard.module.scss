@@ -1,0 +1,42 @@
+.clientCard {
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .title {
+        color: #2c3e50;
+        margin-bottom: 5px;
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+    
+    .text {
+        color: #666666;
+        line-height: 1.6;
+        margin-bottom: 5px;
+    }
+}
+
+.clientActions {
+    display: flex;
+    gap: 1rem;
+    // justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 5px;
+    border-top: 1px solid #eeeeee;
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+}

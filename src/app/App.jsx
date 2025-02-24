@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '../redux/store';
-import Navbar from '../components/Navbar';
+import Navbar from '../common/components/Navbar/Navbar';
 import AppRoutes from './AppRoutes';
 import './App.scss';
 

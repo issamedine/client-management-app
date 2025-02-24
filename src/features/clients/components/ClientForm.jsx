@@ -25,7 +25,7 @@ const ClientForm = memo(() => {
         if (!user) return alert('Vous devez être connecté pour ajouter une fiche client.');
 
         try {
-            await clientsService.createClient({ title, text, created_by: user.id });
+            await clientsService.createClient({ title, text, created_by: user.id, seen: false });
             alert('Fiche client ajoutée avec succès !');
             setTitle('');
             setText('');

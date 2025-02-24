@@ -3,6 +3,9 @@ import ClientCard from './ClientCard';
 import { clientsService } from '../../../services/clientsService';
 import Button from '../../../common/components/Button/Button';
 import { supabase } from '../../../api/supabaseClient';
+import styles from './AdminPanel.module.scss';
+import { removePendingClient, setPendingClients } from '../../../redux/slices/clientsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 /**
  * Admin panel component for managing pending client validations.
@@ -27,6 +30,9 @@ import { supabase } from '../../../api/supabaseClient';
  * @see {@link ClientCard} For client presentation component
  */
 const AdminPanel = () => {
+  const dispatch = useDispatch()
+  const pendingClients = useSelector((state) => state.clients.pendingClients);
+
   /**
    * State containing pending client submissions
    * @type {Array<Object>}
@@ -35,7 +41,7 @@ const AdminPanel = () => {
    * @property {string} text - Client description
    * @property {string} created_by - Creator ID
    */
-  const [pendingClients, setPendingClients] = useState([]);
+  // const [pendingClients, setPendingClients] = useState([]);
 
   /**
    * Fetches pending clients from API on component mount
@@ -46,7 +52,7 @@ const AdminPanel = () => {
     const fetchData = async () => {
       try {
         const clients = await clientsService.getPendingClients();
-        setPendingClients(clients);
+        dispatch(setPendingClients(clients));
       } catch (error) {
         console.error('Error fetching pending clients:', error);
       }
@@ -58,7 +64,7 @@ const AdminPanel = () => {
       .channel('realtime:clientstemp')
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'clientstemp' }, (payload) => {
         console.log('Nouvelle fiche ajoutée:', payload.new);
-        setPendingClients((prev) => [payload.new, ...prev]);
+        dispatch(setPendingClients((prev) => [payload.new, ...prev]));
       })
       .subscribe();
 
@@ -76,7 +82,7 @@ const AdminPanel = () => {
       try {
         const operation = isValid ? clientsService.validateClient : clientsService.rejectClient;
         await operation(typeof input === 'object' ? input : { id: input });
-        setPendingClients(prev => prev.filter(client => client.id !== (input.id || input)));
+        dispatch(removePendingClient(input.id));
       } catch (error) {
         console.error(`Error ${isValid ? 'validating' : 'rejecting'} client:`, error);
       }
@@ -85,15 +91,14 @@ const AdminPanel = () => {
   );
 
   return (
-    <div className="admin-panel">
-      <h2>Pending Client Validations</h2>
-      <div className="client-list">
+    <div className={styles.adminPanel}>
+      <div className={styles.clientList}>
         {pendingClients.map(client => (
           <MemoizedClientCard
             key={client.id}
             client={client}
             onValidate={() => handleValidation(client, true)}
-            onReject={() => handleValidation(client.id, false)}
+            onReject={() => handleValidation(client, false)}
           />
         ))}
       </div>
