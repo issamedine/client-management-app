@@ -51,6 +51,14 @@ const AdminPanel = () => {
       }
     };
     fetchData();
+
+    // Abonnement temps réel
+    const unsubscribe = clientsService.subscribeToClients((newClient) => {
+      setPendingClients(prev => [...prev, newClient]);
+    });
+
+    // Nettoyage
+    return () => unsubscribe();
   }, []);
 
   /**

@@ -27,6 +27,21 @@ export const clientsService = {
     createClient: async (client) => {
         const newClient = await addClient(client);
     },
+    
+    subscribeToClients: (callback) => {
+        const channel = supabase
+          .channel('custom-insert-channel')
+          .on(
+            'postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'clientstemp' },
+            (payload) => callback(payload.new)
+          )
+          .subscribe();
+    
+        return () => {
+          supabase.removeChannel(channel);
+        };
+      },
 
     /**
      * Modifies an existing client by updating the specified fields.
@@ -99,7 +114,7 @@ export const clientsService = {
         const { error } = await supabase
             .from('clientstemp')
             .delete()
-            .eq('id', clientId);
+            .eq('id', clientId.id);
 
         if (error) throw new Error(error.message);
     }
