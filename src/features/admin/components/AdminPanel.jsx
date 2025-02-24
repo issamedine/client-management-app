@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, memo } from 'react';
 import ClientCard from './ClientCard';
 import { clientsService } from '../../../services/clientsService';
 import Button from '../../../common/components/Button/Button';
+import { supabase } from '../../../api/supabaseClient';
 
 /**
  * Admin panel component for managing pending client validations.
@@ -52,13 +53,18 @@ const AdminPanel = () => {
     };
     fetchData();
 
-    // Abonnement temps réel
-    const unsubscribe = clientsService.subscribeToClients((newClient) => {
-      setPendingClients(prev => [...prev, newClient]);
-    });
+    // Écoute des nouvelles fiches en temps réel
+    const subscription = supabase
+      .channel('realtime:clientstemp')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'clientstemp' }, (payload) => {
+        console.log('Nouvelle fiche ajoutée:', payload.new);
+        setPendingClients((prev) => [payload.new, ...prev]);
+      })
+      .subscribe();
 
-    // Nettoyage
-    return () => unsubscribe();
+    return () => {
+      supabase.removeChannel(subscription);
+    };
   }, []);
 
   /**

@@ -7,7 +7,7 @@ import { store } from '../redux/store';
  * ClientsService handles all operations related to client data, including fetching, creating, modifying, and deleting clients.
  */
 export const clientsService = {
-  
+
     /**
      * Fetches all clients and dispatches them to the Redux store.
      * 
@@ -26,22 +26,8 @@ export const clientsService = {
      */
     createClient: async (client) => {
         const newClient = await addClient(client);
+        return newClient;
     },
-    
-    subscribeToClients: (callback) => {
-        const channel = supabase
-          .channel('custom-insert-channel')
-          .on(
-            'postgres_changes',
-            { event: 'INSERT', schema: 'public', table: 'clientstemp' },
-            (payload) => callback(payload.new)
-          )
-          .subscribe();
-    
-        return () => {
-          supabase.removeChannel(channel);
-        };
-      },
 
     /**
      * Modifies an existing client by updating the specified fields.
