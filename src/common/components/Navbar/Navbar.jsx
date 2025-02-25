@@ -135,7 +135,7 @@ const Navbar = () => {
                 {user ? (
                     <>
                         {/* Notification Icon and Dropdown */}
-                        <div className={styles.notificationWrapper} ref={dropdownRef}>
+                        {role === 'ADMIN' && <div className={styles.notificationWrapper} ref={dropdownRef}>
                             <button
                                 className={styles.notificationIcon}
                                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -203,7 +203,7 @@ const Navbar = () => {
                                     </div>
                                 </div>
                             )}
-                        </div>
+                        </div>}
 
                         <span className={styles.roleLabel}>Role: {role}</span>
                         <Button
