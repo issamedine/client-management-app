@@ -93,35 +93,7 @@ const Navbar = () => {
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    useEffect(() => {
-        const fetchPendingClients = async () => {
-            try {
-                const clients = await clientsService.getPendingClients();
-                dispatch(setPendingClients(clients));
-            } catch (error) {
-                console.error('Fetch error:', error);
-            }
-        };
-
-        const subscription = supabase
-            .channel('realtime-pending')
-            .on('postgres_changes',
-                {
-                    event: 'INSERT',
-                    schema: 'public',
-                    table: 'clientstemp'
-                },
-                (payload) => {
-                    dispatch(addPendingClient(payload.new));
-                })
-            .subscribe();
-
-        fetchPendingClients();
-
-        return () => supabase.removeChannel(subscription);
-    }, [dispatch]);
+    }, []);    
 
     return (
         <nav className={styles.navbar}>
