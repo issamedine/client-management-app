@@ -1,83 +1,86 @@
 # Client Management Application
 
-A modern web application built with React, Redux Toolkit, and Supabase for managing client profiles with role-based access control (ADMIN/USER). Implements secure authentication, client profile workflows, and optimized rendering techniques.
+Une application web moderne construite avec React, Redux Toolkit et Supabase pour la gestion des profils clients avec un contrôle d'accès basé sur les rôles (ADMIN/USER). Elle intègre un système d'authentification sécurisé, des workflows de validation de clients, des optimisations de rendu et un système de notifications en temps réel.
 
-## Features
+## 🚀 Fonctionnalités
 
-### 🔒 Authentication System
-- **Multi-role registration** (ADMIN/USER) with email verification
-- JWT-based authentication flow with Supabase
-- Protected routes using `PrivateRoute` component
-- Automatic profile creation in `profiles` table on registration
-- Session management with Redux (`userSlice`)
+### 🔒 Système d'Authentification
+- **Inscription multi-rôles** (ADMIN/USER) avec vérification d'email
+- Flux d'authentification basé sur JWT avec Supabase
+- Protection des routes via un composant `PrivateRoute`
+- Création automatique d'un profil utilisateur dans la table `profiles` lors de l'inscription
+- Gestion des sessions avec Redux (`userSlice`)
 
-### 👥 Client Profile Management
-- **Dual-table architecture**:
-  - `clientstemp` for pending approvals
-  - `clients` for validated entries
-- **Role-based workflows**:
-  - Users create/edit/delete temporary entries
-  - Admins validate/reject submissions
-- CRUD operations with Supabase real-time updates
-- Redux state management (`clientsSlice`)
+### 👥 Gestion des Profils Clients
+- **Architecture à double table** :
+  - `clientstemp` pour les demandes en attente de validation
+  - `clients` pour les entrées validées
+- **Flux de validation basé sur les rôles** :
+  - Les utilisateurs peuvent créer, modifier et supprimer leurs demandes
+  - Les administrateurs peuvent approuver ou rejeter les demandes
+- Opérations CRUD avec mises à jour en temps réel via Supabase
+- Gestion centralisée de l'état avec Redux (`clientsSlice`)
 
-### 🛡 Security Architecture
-- Route protection based on authentication state
-- Dynamic navigation rendering (auth/role-dependent)
-- Two layout system:
-  - `AuthLayout` for login/registration
-  - `MainLayout` for authenticated content
+### 🔔 Système de Notifications
+- Notifications en temps réel pour les demandes de validation
+- Affichage des notifications persistantes avec possibilité d'annulation
+- Suppression automatique des notifications après 10 secondes, sauf si l'utilisateur survole l'élément
+- Gestion optimisée avec Redux (`notificationsSlice`)
 
-## Project Structure
+### 🛡 Architecture Sécurisée
+- Protection des routes en fonction de l'état d'authentification
+- Rendu dynamique de la navigation en fonction du rôle
+- Deux layouts distincts :
+  - `AuthLayout` pour les pages de connexion/inscription
+  - `MainLayout` pour le contenu authentifié
+
+## 🏗 Structure du Projet
 
 ```plaintext
 src/
-├── api/               # Supabase API abstractions
+├── api/               # Abstractions pour Supabase
 │   ├── authApi.js
 │   ├── clientsApi.js
+│   ├── notificationsApi.js
 │   └── supabaseClient.js
 │
-├── features/          # Feature-based modules
-│   ├── auth/         # Authentication flows
-│   ├── clients/      # Client management
-│   ├── admin/        # Admin validation panels
-│   └── home/         # Landing pages
+├── features/          # Modules basés sur les fonctionnalités
+│   ├── auth/         # Gestion de l'authentification
+│   ├── clients/      # Gestion des clients
+│   ├── admin/        # Interfaces administrateurs
+│   ├── notifications/ # Système de notifications
+│   └── home/         # Pages d'accueil
 │
-├── redux/            # State management
+├── redux/            # Gestion de l'état
 │   ├── store.js
-│   ├── slices/       # Redux Toolkit slices
-│       └── clientsSlice.js
-│       └── userSlice.js
+│   ├── slices/       # Slices Redux Toolkit
+│       ├── clientsSlice.js
+│       ├── userSlice.js
+│       └── notificationsSlice.js
 │
-├── services/         # Business logic layer
+├── services/         # Couche métier
 │   ├── authService.js
-│   └── clientsService.js
+│   ├── clientsService.js
+│   └── notificationsService.js
 │
-├── layouts/          # Application layouts
-├── routes/           # Routing configuration
-└── common/           # Shared components & utilities
+├── layouts/          # Agencement des interfaces
+├── routes/           # Configuration du routage
+└── common/           # Composants réutilisables et utilitaires
 ```
 
-# Détails Techniques Clés
-## Optimisations de Performance
+## ⚡ Optimisations de Performance
 ### Mémoïsation des composants :
+- `React.memo` pour éviter les rendus inutiles
+- `useMemo` et `useCallback` pour optimiser les opérations coûteuses
 
-- React.memo pour les composants purs
+### Découpage du code :
+- Chargement différé des routes avec `React.lazy()`
+- Importation dynamique pour les fonctionnalités admin
+- **Styling optimisé** avec SCSS Modules
+- **Requêtes Supabase optimisées** avec filtres et index
 
-- useMemo/useCallback pour les opérations coûteuses
-
-- Découpage de code :
-
-    . Chargement différé des routes avec React.lazy()
-
-    . Imports dynamiques pour les fonctionnalités admin
-
-    . SCSS Modules pour le styling localisé
-
-    . Requêtes Supabase optimisées avec filtres
-
-# Flux de Données
-
+## 🔄 Flux de Données
+```mermaid
 graph LR
   A[Composants] -->|Dispatch d'Actions| B[Redux Thunks]
   B --> C[Couche API Supabase]
@@ -85,67 +88,81 @@ graph LR
   D --> C
   C -->|Mise à jour de l'État| E[Slices Redux]
   E --> A
+```
 
-# Schéma Supabase
+## 📊 Schéma de la Base de Données Supabase
 
-- Authentification:
-```bash
-create table public.users (
-  id uuid references auth.users primary key,
-  email text
+### Authentification :
+```sql
+CREATE TABLE public.users (
+  id UUID PRIMARY KEY REFERENCES auth.users,
+  email TEXT
 );
 ```
 
-- Profils Utilisateurs:
-```bash
-create table public.profiles (
-  id uuid references auth.users primary key,
-  role varchar(5) check (role in ('ADMIN', 'USER'))
+### Profils Utilisateurs :
+```sql
+CREATE TABLE public.profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users,
+  role VARCHAR(5) CHECK (role IN ('ADMIN', 'USER'))
 );
 ```
 
-- Données Clients:
-```bash
-create table public.clientstemp (
-  id uuid primary key,
-  data jsonb,
-  owner uuid references profiles(id),
-  created_at timestamp
+### Données Clients :
+```sql
+CREATE TABLE public.clientstemp (
+  id UUID PRIMARY KEY,
+  data JSONB,
+  owner UUID REFERENCES profiles(id),
+  created_at TIMESTAMP
 );
 
-create table public.clients (
-  id uuid primary key,
-  data jsonb,
-  owner uuid references profiles(id),
-  approved_by uuid references profiles(id),
-  created_at timestamp
+CREATE TABLE public.clients (
+  id UUID PRIMARY KEY,
+  data JSONB,
+  owner UUID REFERENCES profiles(id),
+  approved_by UUID REFERENCES profiles(id),
+  created_at TIMESTAMP
 );
-
 ```
-# Installation et Utilisation
 
-1. Cloner le dépôt
+### Notifications :
+```sql
+CREATE TABLE public.notifications (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES profiles(id),
+  message TEXT,
+  status VARCHAR(10) CHECK (status IN ('UNREAD', 'READ')),
+  created_at TIMESTAMP DEFAULT NOW()
+);
+```
 
-```bash 
+## 📥 Installation et Démarrage
+
+1. **Cloner le dépôt**
+```bash
 git clone git@github.com:issamedine/client-management-app.git
 ```
 
-2. Configuration d'Environnement 
-
-```bash 
-cp .env
-# Renseigner les identifiants Supabase
+2. **Configurer l'environnement**
+```bash
+cp .env.example .env
+# Ajouter les identifiants Supabase
 REACT_APP_SUPABASE_URL=your-project-url
 REACT_APP_SUPABASE_KEY=your-key
 ```
 
-3. Installer les dépendances
-```bash 
+3. **Installer les dépendances**
+```bash
 npm install
 npm run start
 ```
 
-4. Build de Production
+4. **Build de production**
 ```bash
 npm run build
 ```
+
+---
+✅ **Le projet est maintenant prêt à être utilisé avec une gestion avancée des clients et des notifications en temps réel !** 🎉
+
