@@ -19,7 +19,7 @@ const ClientCard = memo(({ client, onValidate, onReject }) => (
         <div className={styles.text}>{client.text}</div>
         <div className={styles.clientActions}>
             <small>
-                {formatDistanceToNow(new Date(client.created_at), {
+                {client?.created_at && formatDistanceToNow(new Date(client.created_at), {
                     addSuffix: true
                 })}
             </small>

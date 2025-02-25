@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const AdminPanel = () => {
   const dispatch = useDispatch()
   const pendingClients = useSelector((state) => state.clients.pendingClients);
-
+console.log("issam pendingClients", pendingClients)
   /**
    * State containing pending client submissions
    * @type {Array<Object>}
@@ -41,37 +41,7 @@ const AdminPanel = () => {
    * @property {string} text - Client description
    * @property {string} created_by - Creator ID
    */
-  // const [pendingClients, setPendingClients] = useState([]);
-
-  /**
-   * Fetches pending clients from API on component mount
-   * @async
-   * @function
-   */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const clients = await clientsService.getPendingClients();
-        dispatch(setPendingClients(clients));
-      } catch (error) {
-        console.error('Error fetching pending clients:', error);
-      }
-    };
-    fetchData();
-
-    // Écoute des nouvelles fiches en temps réel
-    const subscription = supabase
-      .channel('realtime:clientstemp')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'clientstemp' }, (payload) => {
-        console.log('Nouvelle fiche ajoutée:', payload.new);
-        dispatch(setPendingClients((prev) => [payload.new, ...prev]));
-      })
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(subscription);
-    };
-  }, []);
+ 
 
   /**
    * Memoized validation handler with stable reference
@@ -93,6 +63,7 @@ const AdminPanel = () => {
   return (
     <div className={styles.adminPanel}>
       <div className={styles.clientList}>
+        {pendingClients.length === 0 && <div>No files clients</div>}
         {pendingClients.map(client => (
           <MemoizedClientCard
             key={client.id}

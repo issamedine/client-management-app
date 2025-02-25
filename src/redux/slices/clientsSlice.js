@@ -25,8 +25,15 @@ const clientsSlice = createSlice({
       state.clients = state.clients.filter(client => client.id !== action.payload);
     },
     setPendingClients: (state, action) => {
-      state.pendingClients = action.payload;
+      if (!action.payload || (Array.isArray(action.payload) && action.payload.length === 0)) return;
+      
+      if (Array.isArray(action.payload)) {
+        state.pendingClients = [...state.pendingClients, ...action.payload]; // Ajouter tous les éléments du tableau
+      } else {
+        state.pendingClients = [...state.pendingClients, action.payload]; // Ajouter un seul élément
+      }
     },
+    
     addPendingClient: (state, action) => {
       state.pendingClients.unshift(action.payload);
     },

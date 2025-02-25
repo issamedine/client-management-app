@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AdminPanel from '../components/AdminPanel';
 import styles from './AdminPage.module.scss';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Administration page container component.
@@ -22,8 +24,18 @@ import styles from './AdminPage.module.scss';
  * 
  * @see {@link AdminPanel} For the main administration functionality implementation
  */
-const AdminPage = () => (
-  <div className={styles.adminContainer}>
+const AdminPage = () => {
+  const navigate = useNavigate();
+  const role = useSelector((state) => state.user.role);
+  useEffect(() => {
+    if (role !== 'ADMIN') {
+      navigate('/');
+    }
+  }, [role, navigate]);
+
+  if (role !== 'ADMIN') return null;
+
+  return <div className={styles.adminContainer}>
     <aside className={styles.sidebar}>
       <div className={styles.title_admin}>Admin Dashboard</div>
       <ul>
@@ -37,6 +49,6 @@ const AdminPage = () => (
       <AdminPanel />
     </main>
   </div>
-);
+};
 
 export default AdminPage;

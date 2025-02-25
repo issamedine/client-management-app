@@ -169,7 +169,7 @@ const Navbar = () => {
                                         <span className={styles.notificationCount}>{pendingClients.length} new</span>
                                     </div>
                                     <div className={styles.dropdownContent}>
-                                        {pendingClients.map((notification) => (
+                                        {pendingClients.length > 0 && pendingClients.map((notification) => (
                                             <div key={notification.id} className={styles.notificationItem}>
                                                 <div className={styles.notificationContent}>
                                                     <p className={styles.notificationText}>{notification.text}</p>
